@@ -1,0 +1,59 @@
+<%-include('./includes/header.ejs') %>
+
+<%-include('./includes/nav.ejs') %>
+
+<div class="container" style="width:40%; margin:0 auto;" >
+
+  <h1>Login</h1>
+
+  
+    <% if(errorMessage) { %>
+      <div class="text-center alert alert-danger" >
+         <%= errorMessage%>
+      </div>
+    <% } %>
+
+    <% if(userCreatedMessage) { %>
+      <div class="text-center alert alert-success" >
+         <%= userCreatedMessage%>
+      </div>
+    <% } %>
+  
+  <form action="/login"  method="post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="email">Email Id</label>
+          <input 
+          value = "<%= oldInput.email %>"
+          type="email" name="email" class="form-control" id="email" placeholder="Email Id">
+        </div>
+
+      <div class="mb-3"></div>
+
+        <div class="form-group col-md-12">
+          <label for="password">Password</label>
+          <input
+          <% if(passwordError){ %>
+          style ="border: 1px solid red;"
+          <% } %>
+          type="password"
+          value = "<%= oldInput.password %>"
+          name="password" class="form-control" id="password" placeholder="Password">
+        </div>
+
+      <div class="mb-3"></div>
+
+      <button type="submit" class="btn btn-dark">
+          Login
+        </button>
+    </form>
+</div>
+
+<div>
+  <a href="/reset">Reset Password</a>
+</div>
+
+
+<%-include('./includes/footer.ejs') %>
+    

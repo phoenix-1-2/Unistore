@@ -1,0 +1,44 @@
+<%-include('./includes/header.ejs') %>
+
+<%-include('./includes/nav.ejs') %>
+
+<div class="container" style="width:40%; margin:0 auto;" >
+
+  <h1>Reset Password</h1>
+
+  
+    <% if(errorMessage) { %>
+      <div class="text-center alert alert-danger" >
+         <%= errorMessage%>
+      </div>
+    <% } %>
+
+    <% if(userCreatedMessage) { %>
+      <div class="text-center alert alert-success" >
+         <%= userCreatedMessage%>
+      </div>
+    <% } %>
+  
+  <form action="/reset" method="post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="email">Email Id</label>
+          <input 
+          <% if(emailError){ %>
+            style="border: 1px solid red;"
+            <% } %>
+            value = "<%=oldInput.email %>"
+          type="email" name="email" class="form-control" id="email" placeholder="Email Id">
+        </div>
+
+      <div class="mb-3"></div>
+
+      <button type="submit" class="btn btn-dark">
+          Reset Password
+        </button>
+    </form>
+</div>
+
+<%-include('./includes/footer.ejs') %>
+    

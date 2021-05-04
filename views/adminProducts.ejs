@@ -1,0 +1,52 @@
+<%-include('./includes/header.ejs') %>
+
+<%-include('./includes/nav.ejs') %>
+
+<div class="container">
+    <div class="row">
+
+        <% if(products.length > 0) { %>
+        <% for(product of products) { %>
+
+          <div class="col-md-4" style="margin-bottom:1%;">
+            <div class="card text-white bg-dark">
+                <img height="450rem" src=<%= product.imageUrl %> class="card-img-top" alt="Image ">
+                <div class="card-body text-center">
+                  <h2 class="card-title"><%= product.name %></h2>
+                  <h5 class="card-title">
+                    Rs.<%= product.price%>
+                    
+                    <span style="text-decoration:line-through; color:red;" >Rs.<%= product.price + 0.1 * product.price %></span> </h5>
+                  <p class="card-text"><%= product.description %></p>
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <a href=<%= "/admin/edit-product/" + product._id %> type="submit" class="btn text-white btn-outline-secondary">Edit Product</a>    
+                    </div>
+                    <div class="col-md-6">
+                        <form action="/admin/delete-product" method="post" >
+                           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                          <input type="hidden" name="id" value="<%= product._id %>" />
+                          <button type="submit" class="btn text-white btn-outline-secondary">Delete Product</button>
+                        </form>
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+          </div>
+
+          <% } %>
+
+        <% } else{ %>
+          <h1>No Products Found !!</h1>
+        <% } %>
+
+
+
+
+    </div>
+</div>
+
+
+<%-include('./includes/footer.ejs') %>

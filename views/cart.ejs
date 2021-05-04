@@ -1,0 +1,64 @@
+<%-include('./includes/header.ejs') %>
+
+<%-include('./includes/nav.ejs') %>
+
+      <div class="container">
+
+        <div class="row mb-3">
+
+            <div class="col-md-1">
+                <h1>S.No</h1>
+            </div>
+            <div class="col-md-4">
+                <h1>Product Name</h1>
+            </div>
+            <div class="col-md-4">
+                <h1>Quantity</h1>
+            </div>
+            <div class="col-md-3">
+                
+            </div>
+
+
+          </div>
+
+        <% for(let i=0;i<products.length;i++) { %>
+
+            
+
+              <hr>
+            <div class="row mb-3">
+
+                <div class="col-md-1">
+                    <h3><%= i+1 %>.</h3>
+                </div>
+                <div class="col-md-4">
+                    <h3><%= products[i].name %></h3>
+                </div>
+                <div class="col-md-4">
+                    <h3> &times; <%= products[i].quantity %></h3>
+                </div>
+                <div class="col-md-3">
+                    <form action="/delete-cart" method="POST" >
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                        <input type="hidden" name="id" value="<%= products[i]._id %>" />
+                        <button type="submit" class="btn text-white btn-danger">Delete From Cart</button>
+                      </form>
+                </div>
+    
+    
+              </div>
+
+        <% } %>
+          
+        <div>
+            <form action="/orders" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <button type="submit" class="btn text-white btn-success">Order Now</a>
+            </form>
+        </div>
+
+      </div>
+
+
+<%-include('./includes/footer.ejs') %>
