@@ -16,7 +16,7 @@
                   <h5 class="card-title">
                     Rs.<%= product.price%>
                     
-                    <span style="text-decoration:line-through; color:red;" >Rs.<%= product.price + 0.1 * product.price %></span> </h5>
+                    <span style="text-decoration:line-through; color:red;" >Rs.<%= Math.round(product.price + 0.1 * product.price,0) %></span> </h5>
                   <p class="card-text"><%= product.description %></p>
                   
                   <div class="row">
