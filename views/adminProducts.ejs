@@ -46,6 +46,39 @@
 
 
     </div>
+
+    <% if(products){ %>
+      <div class="row">
+        <nav class="col-md-6 offset-md-5 text-center" aria-label="Page navigation example">
+          <ul class="pagination">
+            <li <% if(hasPrevious){ %>
+               class="page-item"
+               <% }else{ %>
+                class="page-item disabled"
+                <%}%> >
+              <a class="page-link" href="/admin/products/?page=<%=Number(page)-1%> " aria-label="Previous">
+                <span style="color:black;" aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <% for(let i = 1; i <=totalPages; i++) {%>
+              
+              <li class="page-item"><a class="page-link" style="color:black;" href="/admin/products/?page=<%=i%> " > <%= i %> </a></li>
+              <% } %>
+            
+            <li <% if(hasNext){ %>
+              class="page-item"
+              <% }else{ %>
+               class="page-item disabled"
+               <% } %> >
+              <a class="page-link" href="/admin/products/?page=<%= Number(page)+1%>" aria-label="Next">
+                <span style="color:black;" aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <% } %>
+
 </div>
 
 

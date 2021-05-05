@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const fs = require('fs');
+const Items_Per_Page = 2;
 
 exports.getAddProduct = (req, res) =>{
 
@@ -32,10 +33,22 @@ exports.getEditProduct = (req, res) =>{
 }
 
 exports.getAdminProducts = (req, res) =>{
-    Product.find({userId: req.user._id}).then((products)=>{
+
+    const page = req.query.page;
+    let total;
+    Product.find().countDocuments().then(totalItems =>{
+        total = totalItems;
+        return Product.find({userId: req.user._id}).skip((page-1)* Items_Per_Page).limit(Items_Per_Page);
+    })
+    .then((products)=>{
         res.render('adminProducts',{
             pageTitle:'Admin Products',
             products:products,
+            totalItems:total,
+            hasNext : Items_Per_Page * page < total,
+            hasPrevious : page > 1,
+            page : page,
+            totalPages : Math.ceil(total / Items_Per_Page)
         })
     }).catch((err)=>{
         res.render('500');

@@ -2,17 +2,27 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 const path = require('path');
 const fs = require('fs');
+const Items_Per_Page = 2;
 const PDFDocument = require('pdfkit');
 exports.getHome = (req, res, next)=>{
-    Product.find().then((products)=>{
+    const page = req.query.page;
+    let total;
+    Product.find().countDocuments().then(totalItems =>{
+        total = totalItems;
+        return Product.find().skip((page-1)* Items_Per_Page).limit(Items_Per_Page);
+    })
+    .then((products)=>{
         res.render('index',{
             pageTitle: '',
             products: products,
-            isLoggedIn : req.session.isLoggedIn
+            isLoggedIn : req.session.isLoggedIn,
+            totalItems:total,
+            hasNext : Items_Per_Page * page < total,
+            hasPrevious : page > 1,
+            page : page,
+            totalPages : Math.ceil(total / Items_Per_Page)
         })
-    }).catch(err=>{
-        res.render('500');
-    });
+    })
     
 }
 
@@ -165,7 +175,7 @@ exports.getInvoice = (req, res) =>{
         doc.text('\n');
         doc.text('----------------------------------------------------------------------');
         doc.text(`SubTotal                                                          Rs.${order.price * order.quantity}`);
-        doc.text(`GST(7%)                                                           Rs.${Math.round(order.price * order.quantity * 0.18,0)}`);
+        doc.text(`GST(18%)                                                           Rs.${Math.round(order.price * order.quantity * 0.18,0)}`);
         doc.text('\n');
         doc.text('----------------------------------------------------------------------');
         doc.text(`Grand Total                                                     Rs.${Math.round(order.price * order.quantity * 0.18,0) + order.price * order.quantity}`);
